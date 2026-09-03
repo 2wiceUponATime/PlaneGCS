@@ -43,6 +43,11 @@ sed -i.bak 's#<Base/Console\.h>#"Base/Console.h"#' $patch_files
 # in the sources); dropping it avoids requiring Boost::math as a public
 # dependency just for a dead include.
 sed -i.bak '/#include <boost\/math\/constants\/constants\.hpp>/d' $patch_files
+# Geo.cpp relies on std::sqrt/std::abs/etc. but only pulled in <cmath>
+# transitively (partly via the boost/math header removed above); include it
+# explicitly. Insert before the first #include so it lands outside the license
+# comment block.
+sed -i.bak '0,/^#include/s//#include <cmath>\n&/' src/Geo.cpp
 rm -f $(find include src -iname "*.bak")
 
 echo "Installing standalone Console shim (replaces FreeCAD's Qt/Python-dependent Base::Console)..."

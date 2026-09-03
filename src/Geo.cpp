@@ -24,6 +24,7 @@
 #if DEBUG_DERIVS
 #endif
 
+#include <cmath>
 #include <cassert>
 
 #include "Geo.h"
