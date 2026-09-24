@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26...4.3)
 
-project(PlaneGCS VERSION 1.1.0 LANGUAGES CXX)
+project(PlaneGCS VERSION 1.1.1 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)

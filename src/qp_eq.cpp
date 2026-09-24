@@ -25,7 +25,6 @@
 #endif
 
 #include <Eigen/QR>
-#include <iostream>
 
 using namespace Eigen;
 

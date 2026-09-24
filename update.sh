@@ -49,6 +49,15 @@ sed -i.bak '/#include <boost\/math\/constants\/constants\.hpp>/d' $patch_files
 # explicitly. Insert before the first #include so it lands outside the license
 # comment block.
 sed -i.bak '0,/^#include/s//#include <cmath>\n&/' src/Geo.cpp
+# Unused includes: nothing from these headers is referenced in the files that
+# include them. FCConfig.h's platform macros go unused in GCS.cpp;
+# graph_concepts.hpp is included by Constraints.cpp, which never touches boost.
+sed -i.bak '/#include <iostream>/d' src/qp_eq.cpp
+sed -i.bak '/#include <FCConfig\.h>/d' src/GCS.cpp
+sed -i.bak '/#include <boost\/graph\/graph_concepts\.hpp>/d' src/Constraints.cpp
+# Constraints.cpp and SubSystem.cpp use assert() but only got <cassert>
+# transitively (via the boost headers removed above); include it explicitly.
+sed -i.bak '0,/^#include/s//#include <cassert>\n&/' src/Constraints.cpp src/SubSystem.cpp
 rm -f $(find include src -iname "*.bak")
 
 echo "Installing standalone Console shim (replaces FreeCAD's Qt/Python-dependent Base::Console)..."

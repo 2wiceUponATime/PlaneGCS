@@ -24,6 +24,7 @@
 # pragma warning(disable : 4251)
 #endif
 
+#include <cassert>
 #include <cmath>
 #include <numbers>
 
@@ -33,7 +34,6 @@
 # include <cassert>
 #endif
 
-#include <boost/graph/graph_concepts.hpp>
 
 #include "Constraints.h"
 
