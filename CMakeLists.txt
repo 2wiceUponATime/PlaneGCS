@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26...4.3)
 
-project(PlaneGCS VERSION 0.1.0 LANGUAGES CXX)
+project(PlaneGCS VERSION 1.1.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -23,7 +23,9 @@ set_target_properties(
     planegcs
     PROPERTIES
         VERSION ${PROJECT_VERSION}
-        # 0.x: a minor bump may break ABI. Switch to the major version at 1.0.
+        # Major.minor tracks the upstream FreeCAD release branch (see update.sh),
+        # and FreeCAD doesn't keep the solver's API stable across minor
+        # releases, so a minor bump may break ABI.
         SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
         # SketcherGlobal.h makes SketcherExport dllexport only when
         # Sketcher_EXPORTS is defined (dllimport otherwise, on Windows).

@@ -91,6 +91,18 @@ Separately, solving does not write results back into your original
 `double*`s by itself — call `system.applySolution()` afterward, or your
 parameters will look unchanged even on `Success`.
 
+## Versioning
+
+PlaneGCS's major.minor version matches the FreeCAD release branch it's
+synced from: PlaneGCS 1.1.x is built from `releases/FreeCAD-1-1`. The patch
+number is PlaneGCS's own and counts re-syncs and fixes to this project; it
+doesn't correspond to FreeCAD's point releases.
+
+This isn't strict semver. FreeCAD doesn't keep the solver's API stable
+between minor releases, so a minor bump here may break API and ABI. The
+shared library's SONAME and the `find_package` version check both reflect
+this, so only the same major.minor counts as compatible.
+
 ## License
 
 LGPL-2.1-or-later, matching upstream FreeCAD. See `LICENSE`.
