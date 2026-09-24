@@ -2,26 +2,27 @@
 
 cd "$(dirname "$0")" || exit
 
-if [[ "$1" == "clean" && -d freecad ]]; then
+FREECAD_BRANCH="releases/FreeCAD-1-1"
+
+if [[ "$1" == "clean" && -d FreeCAD ]]; then
     echo "Removing local FreeCAD copy..."
-    rm -rf freecad
+    rm -rf FreeCAD
 fi
 
-if [ -d freecad ]; then
+if [ -d FreeCAD ]; then
     echo "Checking for updates..."
-    cd freecad
-    git fetch && git reset --hard
+    cd FreeCAD
+    git fetch --depth 1 origin "$FREECAD_BRANCH" && git reset --hard FETCH_HEAD
     cd ..
 else
     git clone \
-        -b releases/FreeCAD-1-1 \
+        -b "$FREECAD_BRANCH" \
         https://github.com/FreeCAD/FreeCAD \
         --single-branch \
-        --depth 1 \
-        freecad
+        --depth 1
 fi
 
-FREECAD_DIR="freecad/src"
+FREECAD_DIR="FreeCAD/src"
 SKETCHER_DIR="$FREECAD_DIR/Mod/Sketcher"
 PLANEGCS_DIR="$SKETCHER_DIR/App/planegcs"
 
