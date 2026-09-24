@@ -33,17 +33,23 @@ goes to `stderr` by default; call `Base::Console().setLogHandler(...)` /
 
 ## Prerequisites
 
-Eigen3, Boost (graph component), and fmt must be installed and discoverable
-via `find_package` — they are not vendored or fetched automatically. No
-minimum versions are enforced; if `cmake` can't find one of them, it'll say
-which. Requires CMake ≥ 3.30.
+Eigen3, Boost, and fmt must be installed and discoverable via `find_package`
+— they are not vendored or fetched automatically. Only Boost's headers are
+used (Boost.Graph is header-only here), and only while building PlaneGCS
+itself. No minimum versions are enforced; if `cmake` can't find one of them,
+it'll say which. Requires CMake ≥ 3.26.
 
 ## Building
 
 ```sh
-cmake -S . -B build
-cmake --build build
+cmake --preset default
+cmake --build --preset default
 ```
+
+The `default` preset builds into `build/` and writes `compile_commands.json`.
+Pass `-DBUILD_SHARED_LIBS=ON` for a shared library. When PlaneGCS is the
+top-level project, install rules are generated automatically; as a
+subdirectory they're off unless you set `PLANEGCS_INSTALL=ON`.
 
 ## Using it
 
@@ -61,10 +67,12 @@ find_package(PlaneGCS REQUIRED)
 target_link_libraries(your_target PRIVATE PlaneGCS::planegcs)
 ```
 
-Either way, Eigen3/Boost/fmt just need to be discoverable on the machine
+Either way, Eigen3 and fmt just need to be discoverable on the machine
 doing the build — `PlaneGCS::planegcs` carries them as real transitive
 dependencies, so you don't need to separately `find_package`/link them
-yourself.
+yourself. Consumers of an installed PlaneGCS don't need Boost at all.
+Installed headers live under `include/PlaneGCS/`, which the target adds to
+the include path, so includes are still written as `#include <GCS.h>`.
 
 ### Solving: watch out for `solve()` and `applySolution()`
 
